@@ -29,12 +29,18 @@ class Dog
       self.update
     else
       sql = <<-SQL
-        INSERT INTO dogs(name, breed)
+        INSERT INTO dogs (name, breed)
         VALUES (?,?)
       SQL
       DB[:conn].execute(sql, self.name, self.breed)
       @id = DB[:conn].execute("SELECT last_insert_rowid() FROM dogs")[0][0]
     end
+  end
+
+  def self.create
+  end
+
+  def self.find_or_create_by(name:, breed:)
   end
 
   def self.new_from_db(row)
@@ -53,6 +59,9 @@ class Dog
     DB[:conn].execute(sql, name).map do |row|
       self.new_from_db(row)
     end.first
+  end
+
+  def self.find_by_id(id)
   end
 
   def update
